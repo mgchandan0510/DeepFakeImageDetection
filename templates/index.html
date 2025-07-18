@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deepfake Detector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease;
+    }
+
+    form {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      display: inline-block;
+      animation: slideUp 1.5s ease;
+    }
+
+    input[type="file"] {
+      margin: 15px;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: #00c9ff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1.1em;
+      color: white;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005f73;
+    }
+
+    .spinner {
+      display: none;
+      margin: 20px auto;
+      border: 6px solid rgba(255, 255, 255, 0.2);
+      border-top: 6px solid #00c9ff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    img {
+      margin-top: 20px;
+      max-width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00c9ff;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 Deepfake Image Detector</h1>
+
+  <form method="POST" action="/predict" enctype="multipart/form-data" onsubmit="showLoading()">
+    <input type="file" name="file" required>
+    <br>
+    <button type="submit">Upload & Predict</button>
+  </form>
+
+  <div class="spinner" id="loader"></div>
+
+  {% if result %}
+    <h2 style="margin-top: 30px;">Prediction: <span style="color: #00ffcc;">{{ result }}</span></h2>
+    <p>Confidence: {{ confidence }}</p>
+    <img src="{{ image_path }}" alt="Uploaded Image">
+  {% endif %}
+
+  <script>
+    function showLoading() {
+      document.getElementById("loader").style.display = "block";
+    }
+  </script>
+</body>
+</html>
